@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .shape {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+    }
+
+
+    /* Add this to your <style> block */
+    #targetImg {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        /* This makes every change (width, height, clip-path, border-radius) smooth */
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Shape Classes */
+    .circle {
+        border-radius: 50%;
+    }
+
+    .square {
+        border-radius: 0%;
+    }
+
+    .triangle {
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    }
+
+    .rectangle {
+        width: 450px !important;
+        height: 250px !important;
+    }
+
+    .pentagon {
+        clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    }
+
+    /* Reset clip-path for shapes that don't use it (like circle) */
+    .no-clip {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+</style>
+
+<body>
+    <div>
+        <div class="dropdown">
+            <select id="shapeSelect">
+                <option value="">Select Shape</option>
+                <option value="circle">Circle</option>
+                <option value="square">Square</option>
+                <option value="triangle">Triangle</option>
+                <option value="rectangle">Rectangle</option>
+                <option value="pentagon">pentagon</option>
+            </select>
+            <select id="imgSelect">
+                <option value="">Select Image</option>
+                <option
+                    value="https://img.freepik.com/free-photo/landscape-morning-fog-mountains-with-hot-air-balloons-sunrise_335224-794.jpg?size=626&ext=jpg">
+                    Image 1</option>
+                <option value="../img-2.jpg">Image 2</option>
+                <option value="../img-3.jpg">Image 3</option>
+            </select>
+            <button onclick="changeShape()">Submit</button>
+        </div>
+    </div>
+
+    <div class="shape">
+        <img id="targetImg"
+            src="https://img.freepik.com/free-photo/landscape-morning-fog-mountains-with-hot-air-balloons-sunrise_335224-794.jpg?size=626&ext=jpg"
+            alt="" style="width: 300px; height: 300px; object-fit: cover;">
+    </div>
+
+    <script>
+        function changeShape() {
+            let shape = document.getElementById("shapeSelect").value;
+            let image = document.getElementById("imgSelect").value;
+            let imgElement = document.getElementById("targetImg");
+
+            if (image !== "") {
+                imgElement.src = image;
+            }
+
+            imgElement.style.borderRadius = "0";
+            imgElement.style.clipPath = "none";
+            imgElement.style.width = "300px";
+            imgElement.style.height = "300px";
+
+            if (shape === "circle") {
+                imgElement.style.borderRadius = "50%";
+            }
+            if (shape === "square") {
+                imgElement.style.clipPath = "inset(0)";
+            }
+            if (shape === "triangle") {
+                imgElement.style.clipPath = "polygon(50% 0%, 0% 100%, 100% 100%)";
+            }
+            if (shape === "rectangle") {
+                imgElement.style.width = "400px";
+                imgElement.style.height = "250px";
+            }
+            if (shape === "pentagon") {
+                imgElement.style.clipPath = "polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%)";
+            }
+        }
+
+
+
+        function changeShape() {
+            let shape = document.getElementById("shapeSelect").value;
+            let image = document.getElementById("imgSelect").value;
+            let imgElement = document.getElementById("targetImg");
+
+            // Update Image Source
+            if (image !== "") {
+                imgElement.src = image;
+            }
+
+            // Reset Classes (Clears previous shape)
+            imgElement.className = "";
+
+            // Default clip-path reset (required to animate back from a polygon)
+            if (shape !== "triangle" && shape !== "pentagon") {
+                imgElement.classList.add("no-clip");
+            }
+
+            // Apply the new shape class
+            if (shape) {
+                imgElement.classList.add(shape);
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
